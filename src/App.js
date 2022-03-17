@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// Css
+import { CssBaseline, Grid } from '@material-ui/core';
+
+// Import vores elementer i appen
+import Header from './elementer/Header/Header';
+import List from './elementer/List/List';
+import Map from './elementer/Map/Map';
+import { getPlaceData } from './api/index';
+
+const App = () => {
+
+    const [places, setPlaces] = useState([]);
+
+    const [coordinates, setCoordinates] = useState({});
+    const [bounds, setBounds] = useState('');
+
+    // Set koordinater til brugerens placering
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude}}) => {
+            setCoordinates({lat: latitude, lng: longitude});
+        })
+    }, []);
+
+    useEffect(() => {
+        console.log(coordinates, bounds);
+        getPlaceData(bounds.sw, bounds.ne)
+            .then((data) => {
+                console.log(data);
+                setPlaces(data);
+            })
+    }, [coordinates, bounds]);
+
+    return (
+        <>
+            <CssBaseline />
+            <Header />
+            <Grid container spacing={3} style={{width: '100%'}}>
+
+                <Grid item xs={12} md={4}>
+                    <List 
+                    places={places}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={8}>
+                    <Map 
+                    setCoordinates={setCoordinates}
+                    setBounds={setBounds}
+                    coordinates={coordinates}
+                    places={places}
+                    />
+                </Grid>
+
+            </Grid>
+        </>
+    );
 }
 
 export default App;
