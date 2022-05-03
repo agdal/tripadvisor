@@ -23,11 +23,12 @@ const App = () => {
         })
     }, []);
 
+    // Henter data indenfor kortets koordinater
     useEffect(() => {
         console.log(coordinates, bounds);
         getPlaceData(bounds.sw, bounds.ne)
             .then((data) => {
-                console.log(data);
+                console.log(data); // test
                 setPlaces(data);
             })
     }, [coordinates, bounds]);

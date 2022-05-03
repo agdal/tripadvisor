@@ -7,7 +7,7 @@ const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
 // Hent data om placeringer
 export const getPlaceData = async (sw, ne) => {
 
-    // Forsøg at:
+    // Forsøg at hent dataen:
     try {
         const {data: {data}} = await axios.get(URL, {
           params: {
@@ -28,15 +28,5 @@ export const getPlaceData = async (sw, ne) => {
     // Catch error
     catch (error) {
         console.log(error);
-    } // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 53:47
-    // 1.26.45
-    
+    } 
 }
