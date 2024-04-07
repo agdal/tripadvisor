@@ -11,13 +11,14 @@ import { getPlaceData } from './api/index';
 
 const App = () => {
 
+    // Lav variabler til at gemme diverse data
     const [places, setPlaces] = useState([]);
-
     const [coordinates, setCoordinates] = useState({});
     const [bounds, setBounds] = useState('');
 
     // Set koordinater til brugerens placering
     useEffect(() => {
+        // VI bruger Google chromes data omkring hvor brugeren befinder sig, og sætte disse data, til vores variabler vi difinerede i starten.
         navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude}}) => {
             setCoordinates({lat: latitude, lng: longitude});
         })
@@ -26,10 +27,10 @@ const App = () => {
     // Henter data indenfor kortets koordinater
     useEffect(() => {
         console.log(coordinates, bounds);
-        getPlaceData(bounds.sw, bounds.ne)
+        getPlaceData(bounds.sw, bounds.ne) // Vi kalder vores async funktion vi lavede i api filen, og siger vi vil hente data indenfor koordinaterne mest sydvest og nordøst på kortet, hvilket danner en firkant som er vores kort.
             .then((data) => {
                 console.log(data); // test
-                setPlaces(data);
+                setPlaces(data); // Vi sætter vores data på skærmen.
             })
     }, [coordinates, bounds]);
 
