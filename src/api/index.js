@@ -4,11 +4,13 @@ const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
 
 // API FRA RAPIDAPI
   
-// Hent data om placeringer
+// Hent data om placeringer, gennem en asynchronous funktion, hvilket modsat en synchron funktion kun bliver kaldt når man ber om det. En snyc
+// function kører altså når man kalder den, og jeg kalder den kun hver gang man ændre i sin position, så vi ik sidder og bruger data og hardware på at kalde den hvert milisekund.
 export const getPlaceData = async (sw, ne) => {
 
     // Forsøg at hent dataen:
     try {
+      // Vi henter data indenfor vores kendte position som vi gennem google maps api kender, når brugeren åbner siden.
         const {data: {data}} = await axios.get(URL, {
           params: {
           bl_latitude: sw.lat,
@@ -22,10 +24,10 @@ export const getPlaceData = async (sw, ne) => {
         }
       });
         
-        return data;
+        return data; // Vi retunere den data vi får sendt udfra vores position.
     }
 
-    // Catch error
+    // Catch error, hvis der sker en fejl, skriver vi den på skærmen.
     catch (error) {
         console.log(error);
     } 
